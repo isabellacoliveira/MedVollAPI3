@@ -25,25 +25,36 @@ public class MedicoController<Paginable> {
     @Autowired
     private MedicoRepository repository;
     @PostMapping
-    // notação pois é um método de adição
     @Transactional
     public void cadastrar(@RequestBody @Valid DadosCadastroMedico dados)
     {
         repository.save(new Medico(dados));
     }
+    // so vai retornar os medicos que estao ativos 
     @GetMapping
-    // vamos usar metodos do proprio spring boot para fazer a paginacao 
     public Page<DadosListagemMedico> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        return repository.findAll(paginacao).map(DadosListagemMedico::new);
+        return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
     }
     @PutMapping
     @Transactional
     public void atualizar(@RequestBody @Valid DadosAtualizacaoMedico dados)
     {
-        // trazer os dados atuais e sobre escrever o que ja tem la 
-        // pegar referencia pelo id 
-        // se carregamos uma entidade o update eh feito sozinho 
         var medico  = repository.getReferenceById(dados.id());
         medico.atualizarInformacoes(dados);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    // com o path, isso sinaliza ao Spring que o id que vai entrar no metodo 
+    // eh o id que esta na URL 
+    // exclusao definitiva 
+    // repository.deleteById(id);
+
+    // exclusao logica 
+    // carregar a entidade do banco de dados, inativa-la
+    // e disparar o update no banco de dados
+    public void excluir(@PathVariable Long id){
+        var medico  = repository.getReferenceById(id);
+        medico.excluir();
     }
 }
