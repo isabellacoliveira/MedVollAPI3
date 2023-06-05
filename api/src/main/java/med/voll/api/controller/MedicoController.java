@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("medicos")
 public class MedicoController {
 
+ 
     @Autowired
     private MedicoRepository repository;
 
@@ -26,8 +27,7 @@ public class MedicoController {
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroMedico dados, UriComponentsBuilder uriBuilder) {
         var medico = new Medico(dados);
         repository.save(medico);
-        // criaçao da URI 
-        // pega o ID do medico que foi criado no banco de dados 
+
         var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(medico));
@@ -57,13 +57,10 @@ public class MedicoController {
         return ResponseEntity.noContent().build();
     }
 
-    // temos o ResponseEntity pois agora vamos retornar o status da requisição 
     @GetMapping("/{id}")
     public ResponseEntity detalhar(@PathVariable Long id) {
-        // as excessoes sao tratadas como erro 500 por padrao
         var medico = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }
-
 
 }

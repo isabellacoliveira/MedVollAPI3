@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import med.voll.api.Infra.Security.DadosTokenJWT;
 import med.voll.api.Infra.Security.TokenService;
 import med.voll.api.domain.Usuario.DadosAutenticacao;
 import med.voll.api.domain.Usuario.Usuario;
@@ -19,19 +20,19 @@ import med.voll.api.domain.Usuario.Usuario;
 public class AutenticacaoController {
     // precisamos chamar uma classe do proprio spring que é quem chama o processo de login 
     @Autowired
-    private AuthenticationManager maneger;
+    private AuthenticationManager manager;
 
     @Autowired
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity efetuarLogin(@RequestBody @Valid DadosAutenticacao dados){
-       var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-       var authentication = maneger.authenticate(token);
+    public ResponseEntity efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
+        var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+        var authentication = manager.authenticate(authenticationToken);
 
-        // nossa controller precisa retornar o token
-        // precisamos gerar esse token, usando a bibioteca json web token
-        // getPrincipal = pega usuario logado 
-       return ResponseEntity.ok(tokenService.gerarToken((Usuario) authentication.getPrincipal()));
+        var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
-}
+    }
+

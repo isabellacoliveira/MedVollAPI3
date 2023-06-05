@@ -22,41 +22,28 @@ public class SecurityFilter extends OncePerRequestFilter{
 
     @Autowired
     private UsuarioRepository repository;
-    // request: pega coisas da requisição 
-    // response: enviar coisas na resposta 
-    // filterChain: cadeia de filtros da aplicação 
-    // temos que encaminhar para os proximos filtros da aplicação 
-    // assim o corpo vai parar de vir vazio 
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-            //  vamos capturar o token e validar se esta certo ou nao 
-            // o envio do token é feito atraves de um cabeçalho http
-            // cabeçalho autorization 
-            var tokenJWT = recuperarToken(request);
-            // recuperar um subject e validar o token
-            if(tokenJWT != null){
-                var subject = tokenService.getSubject(tokenJWT);
-                // temos que falar para ele que o token esta certo, portanto a pessoa esta logada 
-                // autenticação forçada da pessoa, o token esta validado e eu chequei que a pessoa esta logada 
-                var usuario = repository.findByLogin(subject);
-                // recebe o objeto do usuario, credenciais e um conjunto de autorizações 
-                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-            // se chegar ate aqui, siginifica que o token esta valido, portanto: 
-            // temos que avisar que o usuario esta logado 
-            filterChain.doFilter(request, response);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        var tokenJWT = recuperarToken(request);
+
+        if (tokenJWT != null) {
+            var subject = tokenService.getSubject(tokenJWT);
+            var usuario = repository.findByLogin(subject);
+
+            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
+        filterChain.doFilter(request, response);
     }
-    // ela é uma classe para que o spring carregue um componente generico
-    // usar @component
 
     private String recuperarToken(HttpServletRequest request) {
-        // getHeader para pegar cabeçalho 
-        var autorizationHeader = request.getHeader("Authorization");
-        if(autorizationHeader != null){
-            return autorizationHeader.replace("Bearer", "");
+        var authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null) {
+            return authorizationHeader.replace("Bearer ", "");
         }
+
         return null;
     }
 }
