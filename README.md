@@ -10,6 +10,7 @@ Enquanto um time de desenvolvimento será responsável pelo aplicativo mobile, o
 
 - [x] CRUD de médicos;
 - [x] CRUD de pacientes;
+- [X] Login de Usuarios 
 - [ ] Agendamento de consultas(em breve);
 - [ ] Cancelamento de consultas(em breve);
 
@@ -46,6 +47,7 @@ As seguintes tecnologias foram utilizadas no desenvolvimento da API Rest do proj
 Usamos a ferramenta, IntelliJ
 ![INTELLIJ](./assets/gif1.gif)
 
+-----------------------------------------------------------------------------------------------------------------------------
 
 # MEDICOS 
 
@@ -61,4 +63,27 @@ Usamos a ferramenta, IntelliJ
 # DELETE 
 ![CRUD](./assets/gif5.gif)
 
----
+-----------------------------------------------------------------------------------------------------------------------------
+
+# PACIENTES  
+
+# POST 
+![CRUD](./assets/gif2.gif)
+
+# GET 
+![CRUD](./assets/gif3.gif)
+
+# PUT  
+![CRUD](./assets/gif4.gif)
+
+# DELETE 
+![CRUD](./assets/gif5.gif)
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+# LOGIN
+Perceba que ao fazer login, o usuário gera um token, esse token, deve ser passado no Header da requisição, 
+caso ele não seja passado, o usuário terá acesso a outras rotas da aplicação
+
+
+
