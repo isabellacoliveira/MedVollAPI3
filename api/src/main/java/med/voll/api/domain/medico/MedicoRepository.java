@@ -19,20 +19,27 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
     // ele vai trazer só um devido ao limit e ordenar rand (aleatorio)
     // deve ser um medico que esteja livre nessa data, ou seja 
     // vamos trazer o medico cujo o id nao esteja contido no sub select 
-    @Query("""
-            SELECT N FROM Medico m
-            where
-            n.ativo = 1
-            and 
-            n.id not in(
-                select c.medico.id from Consulta c
-                where 
+        @Query("""
+            SELECT m FROM Medico m
+            WHERE
+            m.ativo = 1
+            AND 
+            m.id NOT IN (
+                SELECT c.medico.id FROM Consulta c
+                WHERE 
                 c.data = :data
             )
-            n.especialidade = :especialidade
-            order by rand()
-            limit 1 
+            AND m.especialidade = :especialidade
+            ORDER BY rand()
+            LIMIT 1 
             """)
     Medico escolherMedicoAleatorioLivreNaData(Especialidade especialidade, LocalDateTime data);
 
+    @Query("""
+            select m.ativo
+            from Medico m
+            where 
+            m.id = :id
+            """)
+            Boolean findAtivoById(Long idMedico);
 }
