@@ -85,5 +85,12 @@ Usamos a ferramenta, IntelliJ
 Perceba que ao fazer login, o usuário gera um token, esse token, deve ser passado no Header da requisição, 
 caso ele não seja passado, o usuário terá acesso a outras rotas da aplicação
 
+vamos efetuar o login:
+
+![CRUD](./assets/gif7.gif)
+
+Confira que o usuario que se loga possui um token que é gerado no momento da requisição. Caso esse token não 
+seja passado no momento da requisição, o usuário não terá autorização para as rotas do sistema. Mas a partir 
+do momento que esse token é passado, o usuário pode acessar as rotas da nossa API. 
 
 
