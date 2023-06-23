@@ -11,8 +11,8 @@ Enquanto um time de desenvolvimento será responsável pelo aplicativo mobile, o
 - [x] CRUD de médicos;
 - [x] CRUD de pacientes;
 - [X] Login de Usuarios 
-- [ ] Agendamento de consultas(em breve);
-- [ ] Cancelamento de consultas(em breve);
+- [X] Agendamento de consultas(em breve);
+- [X] Cancelamento de consultas(em breve);
 
 ---
 
@@ -25,6 +25,8 @@ O layout da aplicação mobile está disponível neste link: <a href="https://ww
 ## 📄 Documentação
 
 A documentação das funcionalidades da aplicação pode ser acessada neste link: <a href="https://trello.com/b/O0lGCsKb/api-voll-med">Trello</a>
+
+OBS: essa aplicação possui testes automatizados implementados
 
 ---
 
@@ -93,4 +95,15 @@ Confira que o usuario que se loga possui um token que é gerado no momento da re
 seja passado no momento da requisição, o usuário não terá autorização para as rotas do sistema. Mas a partir 
 do momento que esse token é passado, o usuário pode acessar as rotas da nossa API. 
 
+-----------------------------------------------------------------------------------------------------------------------------
+
+# SWAGGER
+
+## AGENDAMENTO X CANCELAMENTO DE CONSULTAS 
+
+Implementamos o Swagger em nossa aplicação
+
+![CRUD](./assets/gif8.gif)
+![CRUD](./assets/gif9.gif)
+![CRUD](./assets/gif10.gif)
 
